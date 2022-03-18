@@ -1,0 +1,35 @@
+<% layout('layouts/boilerplate')%>
+<div class="row">
+    <h1 class="text-center">New Bhaktidham</h1>
+    <div class="col-6 offset-3">
+        <form action="/dhaktidhams" method="POST" novalidate class="validated-form">
+            <div class="mb-3">
+                <label class="form-label" for="title">Title</label>
+                <input class="form-control" type="text" id="title" name="dhaktidham[title]" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="mulnayak">Mulnayak</label>
+                <input class="form-control" type="text" id="mulnayak" name="dhaktidham[mulnayak]" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="location">Location</label>
+                <input class="form-control" type="text" id="location" name="dhaktidham[location]" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="description">Description</label>
+                <textarea class="form-control" type="text" id="description" name="bhaktidham[description]"></textarea>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="image">Image Url</label>
+                <input class="form-control" type="text" id="image" name="dhaktidham[image]">
+            </div>
+            <div class="mb-3">
+                <button class="btn btn-success">Add dhaktidham</button>
+            </div>
+        </form>
+        <a href="/dhaktidhams">List of Bhaktidhams</a>
+    </div>
+</div>
+
+        
+    
