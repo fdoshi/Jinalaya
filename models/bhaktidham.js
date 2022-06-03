@@ -8,13 +8,17 @@ const BhaktidhamSchema = new Schema({
     location: String,
     image: String,
     mulnayak: String,
+    author: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    },
     reviews: [
         {
             type: Schema.Types.ObjectId,
             ref: 'Review'
         }
     ]
-})
+});
 
 BhaktidhamSchema.post('findOneAndDelete', async function (doc) {
     if (doc) {
@@ -24,6 +28,6 @@ BhaktidhamSchema.post('findOneAndDelete', async function (doc) {
             }
         })
     }
-})
+});
 
 module.exports = mongoose.model('Bhaktidham', BhaktidhamSchema);

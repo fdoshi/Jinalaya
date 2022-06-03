@@ -17,6 +17,7 @@ const seedDB = async () => {
     await Bhaktidham.deleteMany({});
     for(let i = 0; i < 5; i++){
         const dham = new Bhaktidham({
+            author: '629a034b760a66aa1436b8ca',
             location: "India",
             title: "Derasar" + i,
             mulnayak: "Adinath",
