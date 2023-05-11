@@ -1,3 +1,7 @@
+if (process.env.NODE_ENV !== "production") {
+    require('dotenv').config();
+}
+
 const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
@@ -16,12 +20,14 @@ const reviewRoutes = require('./routes/reviews');
 const userRoutes = require('./routes/users');
 
 //DB connetion setup
-mongoose.connect('mongodb://localhost:27017/jinalaya', {
+
+mongoose.connect('mongodb://127.0.0.1:27017/jinalaya', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
 
 const db = mongoose.connection;
+db.set('strictQuery', false);
 db.on("error", console.error.bind(console, "connection error:"));
 db.once("open", () => {
     console.log("Database connected");
@@ -42,11 +48,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 //Session setup for storing data on a browser
 const sessionConfig = {
     secret: 'mysecret',
-    resave: true,
+    resave: false,
     saveUninitialize: true,
-    //store: new MongoStore({url: secret.db, autoReconnect: true}),
+    // store: new MongoStore({url: secret.db, autoReconnect: true}),
     cookie: {
-        //httpOnly: true,
+        // httpOnly: true,
         expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
         maxAge: 1000 * 60 * 60 * 24 * 7
     }
@@ -56,6 +62,15 @@ app.use(session(sessionConfig))
 //Flash setup for popup alerts while moving to different page
 app.use(flash());
 
+//Passport setup for user authentication (app.use(session()) needs to be befor passport session)
+app.use(passport.initialize());
+app.use(passport.session());
+// passport.use(User.createStrategy());
+passport.use( new pLocal(User.authenticate()));
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 app.use((req, res, next) => {
     //console.log(req.session)
     res.locals.currentUser = req.user || null;
@@ -64,14 +79,7 @@ app.use((req, res, next) => {
     next();
 })
 
-//Passport setup for user authentication
-app.use(passport.initialize());
-app.use(passport.session());
-passport.use(new pLocal(User.authenticate()));
-
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
-
+//Routes
 app.use('/bhaktidhams', bhaktidhamRoutes);
 app.use('/bhaktidhams/:id/reviews', reviewRoutes );
 app.use('/', userRoutes);
@@ -79,7 +87,6 @@ app.use('/', userRoutes);
 app.get('/', (req, res) => {
     res.render('home')
 });
-
 
 app.all('*', (req, res, next) => {
     next(new ExpressError('Page Not Found', 404))
@@ -91,6 +98,7 @@ app.use((err, req, res, next) => {
     res.status(statusCode).render('error', { err })
 });
 
-app.listen(3000, () => {
-    console.log('serving on port 3000')
-});
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+    console.log(`Serving on port ${port}`)
+})

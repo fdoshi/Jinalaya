@@ -2,27 +2,35 @@
 <div class="row">
     <h1 class="text-center">New Bhaktidham</h1>
     <div class="col-6 offset-3">
-        <form action="/dhaktidhams" method="POST" novalidate class="validated-form">
+        <form action="/bhaktidhams" method="POST" novalidate class="validated-form" enctype="multipart/form-data">
             <div class="mb-3">
                 <label class="form-label" for="title">Title</label>
-                <input class="form-control" type="text" id="title" name="dhaktidham[title]" required>
+                <input class="form-control" type="text" id="title" name="bhaktidham[title]" required>
             </div>
             <div class="mb-3">
                 <label class="form-label" for="mulnayak">Mulnayak</label>
-                <input class="form-control" type="text" id="mulnayak" name="dhaktidham[mulnayak]" required>
+                <input class="form-control" type="text" id="mulnayak" name="bhaktidham[mulnayak]" required>
             </div>
             <div class="mb-3">
                 <label class="form-label" for="location">Location</label>
-                <input class="form-control" type="text" id="location" name="dhaktidham[location]" required>
+                <input class="form-control" type="text" id="location" name="bhaktidham[location]" required>
+            </div>
+            <div class="mb-3">
+                <div class="form-file custom-file">
+                    <input type="file" class="form-file-input" id="image" name="image" multiple>
+                    <label class="form-file-label" for="image">
+                        <span class="form-file-text custom-file-label">Choose image(s)...</span>
+                        <span class="form-file-button">Browse</span>
+                    </label>
+                </div>
+                <!-- <label class="form-label" for="image">Image Url</label>
+                <input class="form-control" type="text" id="image" name="bhaktidham[image]"> -->
             </div>
             <div class="mb-3">
                 <label class="form-label" for="description">Description</label>
                 <textarea class="form-control" type="text" id="description" name="bhaktidham[description]"></textarea>
             </div>
-            <div class="mb-3">
-                <label class="form-label" for="image">Image Url</label>
-                <input class="form-control" type="text" id="image" name="dhaktidham[image]">
-            </div>
+            
             <div class="mb-3">
                 <button class="btn btn-success">Add dhaktidham</button>
             </div>
