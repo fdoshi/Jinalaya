@@ -8,6 +8,7 @@ const mongoose = require('mongoose');
 const ejsMate = require('ejs-mate');
 const session = require('express-session');
 const flash = require('connect-flash');
+const mongoSanitize = require('express-mongo-sanitize');
 const ExpressError = require('./utils/expressError');
 const methodOverride = require('method-override');
 const passport = require('passport');
@@ -19,8 +20,10 @@ const bhaktidhamRoutes = require('./routes/bhaktidhams');
 const reviewRoutes = require('./routes/reviews');
 const userRoutes = require('./routes/users');
 
-//DB connetion setup
 
+//DB connetion setup
+// 'mongodb://127.0.0.1:27017/jinalaya'
+//onst dbUrl = process.env.db;
 mongoose.connect('mongodb://127.0.0.1:27017/jinalaya', {
     useNewUrlParser: true,
     useUnifiedTopology: true
@@ -44,6 +47,8 @@ app.set('views', path.join(__dirname, 'views'))
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
+//sanitize data
+app.use(mongoSanitize());
 
 //Session setup for storing data on a browser
 const sessionConfig = {
@@ -53,6 +58,7 @@ const sessionConfig = {
     // store: new MongoStore({url: secret.db, autoReconnect: true}),
     cookie: {
         // httpOnly: true,
+        // secure: true
         expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
         maxAge: 1000 * 60 * 60 * 24 * 7
     }

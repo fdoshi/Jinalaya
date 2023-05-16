@@ -10,15 +10,20 @@
                 </div>
                 <div class="mb-3">
                     <label class="form-label" for="mulnayak">Mulnayak</label>
-                    <input class="form-control" type="text" id="mulnayak" name="bhaktidham[mulnayak]" value="<%= bhaktidham.location%>" required>
+                    <input class="form-control" type="text" id="mulnayak" name="bhaktidham[mulnayak]" value="<%= bhaktidham.mulnayak%>" required>
                 </div>
                 <div class="mb-3">
                     <label class="form-label" for="location">Location</label>
                     <input class="form-control" type="text" id="location" name="bhaktidham[location]" value="<%= bhaktidham.location%>" required>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label" for="image">Image Url</label>
-                    <input class="form-control" type="text" id="image" name="bhaktidham[image]" value="<%= bhaktidham.image %>" >
+                    <div class="form-file custom-file">
+                        <input type="file" class="form-file-input" id="image" name="image" multiple>
+                        <label class="form-file-label" for="image">
+                            <span class="form-file-text custom-file-label">Add more image(s)...</span>
+                            <span class="form-file-button">Browse</span>
+                        </label>
+                    </div>
                 </div>
                 <div class="mb-3">
                     <label class="form-label" for="description">Description</label>
@@ -26,8 +31,17 @@
                         name="bhaktidham[description]" value="<%= bhaktidham.description%>"></textarea>
                 </div>
                 <div class="mb-3">
+                    <% bhaktidham.images.forEach(function(img, i) {  %>    
+                    <img src="<%=img.thumbnail %>" class="img-thumbnail" alt="">
+                    <div class="form-check-inline">
+                        <input type="checkbox" id="image-<%=i%>" name="deleteImages[]" value="<%=img.filename%>">
+                    </div>
+                    <label for="image-<%=i%>">Delete?</label>
+                    <% })%>
+                </div>
+                <div class="mb-3">
                     <button class="btn btn-success">Update Bhaktidham</button>
-                </div>            
+                </div>
             </form>
             <a href="/bhaktidham/<%= bhaktidham._id%>">Back To Bhaktidham Details</a>
         </div>

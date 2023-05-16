@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Bhaktidham = require('../models/bhaktidham');
+const cities = require('./cities');
 
 mongoose.connect('mongodb://127.0.0.1:27017/jinalaya', {
     useNewUrlParser: true,
@@ -16,13 +17,30 @@ db.once("open", () => {
 const seedDB = async () => {
     await Bhaktidham.deleteMany({});
     for(let i = 1; i < 5; i++){
+        const random1000 = Math.floor(Math.random() * 1000);
         const dham = new Bhaktidham({
             author: '645abd1c370801c0ddcaf515',
-            reviews: [ {_id: "645bc5716aa32fad02d03d3a"} ],
-            location: "India",
+            reviews: [ {_id: "645bda22c8969e4c07c18ac3"}, {_id: "645d3909dd2eb47650be40c8"}],
+            location: `${cities[random1000].city}, ${cities[random1000].state}`,
             title: "Derasar " + i,
             mulnayak: "Adinath",
-            image:'https://images.unsplash.com/photo-1609151745346-c624e507baa2?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1074&q=80',
+            geometry: {
+                type: "Point",
+                coordinates: [
+                    cities[random1000].longitude,
+                    cities[random1000].latitude,
+                ]
+            },
+            images: [
+                {
+                    url: 'https://res.cloudinary.com/dztrvonhq/image/upload/v1684251395/Jinalaya/sup8sq4vefhotyopdx8a.jpg',
+                    filename: 'Jinalaya/sup8sq4vefhotyopdx8a'
+                },
+                {
+                    url: 'https://res.cloudinary.com/dztrvonhq/image/upload/v1684251396/Jinalaya/u5oqk3ui9wtvv71ifduz.jpg',
+                    filename: 'Jinalaya/u5oqk3ui9wtvv71ifduz'
+                }
+            ],
             description:'Lorem Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam dolores vero perferendis laudantium, consequuntur voluptatibus nulla architecto, sit soluta esse iure sed labore ipsam a cum nihil atque molestiae deserunt!'
         });
         await dham.save();

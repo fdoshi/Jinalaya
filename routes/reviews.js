@@ -3,7 +3,6 @@ const router = express.Router();
 const reviews = require('../controllers/review');
 const catchAsync = require('../utils/catchAsync');
 const ExpressError = require('../utils/expressError');
-const { reviewSchema } = require('../joiSchemas.js');
 const {isLoggedIn, isReviewAuthor, validateReview} = require('../middleware');
 
 router.post('/', isLoggedIn, validateReview, catchAsync(reviews.createReview))
